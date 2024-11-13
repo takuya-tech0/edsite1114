@@ -24,26 +24,28 @@ export default function ECSite() {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setIsLoading(true);
-        const productsRes = await fetch('http://ec1114.ap-northeast-1.elasticbeanstalk.com/api/products');
-        const productsData = await productsRes.json();
-        setFeaturedProducts(productsData.slice(0, 5));
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      setIsLoading(true);
+      // productsのエンドポイント
+      const productsRes = await fetch('/api/proxy/api/products');
+      const productsData = await productsRes.json();
+      setFeaturedProducts(productsData.slice(0, 5));
 
-        const categoriesRes = await fetch('http://ec1114.ap-northeast-1.elasticbeanstalk.com/api/categories');
-        const categoriesData = await categoriesRes.json();
-        setCategories(categoriesData);
-      } catch (error) {
-        console.error('データの取得に失敗しました:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+      // categoriesのエンドポイント - ここが間違っていました
+      const categoriesRes = await fetch('/api/proxy/api/categories');
+      const categoriesData = await categoriesRes.json();
+      setCategories(categoriesData);
+    } catch (error) {
+      console.error('データの取得に失敗しました:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    fetchData();
-  }, []);
+  fetchData();
+}, []);
 
   if (isLoading) {
     return (
