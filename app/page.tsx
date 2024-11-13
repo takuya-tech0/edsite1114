@@ -28,13 +28,12 @@ useEffect(() => {
   const fetchData = async () => {
     try {
       setIsLoading(true);
-      // productsのエンドポイント
-      const productsRes = await fetch('/api/proxy/api/products');
+      // /api/proxy/api を /api/proxy に変更
+      const productsRes = await fetch('/api/proxy/products');
       const productsData = await productsRes.json();
       setFeaturedProducts(productsData.slice(0, 5));
 
-      // categoriesのエンドポイント - ここが間違っていました
-      const categoriesRes = await fetch('/api/proxy/api/categories');
+      const categoriesRes = await fetch('/api/proxy/categories');
       const categoriesData = await categoriesRes.json();
       setCategories(categoriesData);
     } catch (error) {
